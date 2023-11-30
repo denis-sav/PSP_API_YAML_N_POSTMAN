@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderResponse'
+                $ref: '#/components/schemas/OrdersResponse'
   /{establishmentId}/orders/{orderId}:
     parameters:
       - name: establishmentId
@@ -81,6 +81,14 @@ components:
       properties:
         Order:
           $ref: '#/components/schemas/Order'
+          
+    OrdersResponse:
+      type: object
+      properties:
+        Orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
     Order:
       type: object
       required:
