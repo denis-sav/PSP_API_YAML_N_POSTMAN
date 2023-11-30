@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: Point of Sale System API
+  description: |-
+    API for managing a Point of Sale system
+  version: 1.0.0
+paths:
+  /{establishmentId}/orders:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - orders
+      summary: Gets every order
+      description: Update an existing order by Id
+      operationId: getOrders
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+    put:
+      tags:
+        - orders
+      summary: Update an existing order
+      description: Update an existing order by Id
+      operationId: updateOrder
+      requestBody:
+        description: Update an existing order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+            
+components:
+  schemas:
+    Order:
+      type: object
+      required:
+      - "time"
+      - "product"
+      - "quantity"
+      properties:
+        time:
+          type: "string"
+        product:
+          type: "string"
+        quantity:
+          type: "integer"
