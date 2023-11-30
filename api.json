@@ -17,15 +17,37 @@ paths:
       tags:
         - orders
       summary: Gets every order
-      description: Update an existing order by Id
-      operationId: getOrders
+      description: Gets a list of existing orders
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'          
+                $ref: '#/components/schemas/Order'
+  /{establishmentId}/orders/{orderId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order
+        schema:
+          type: string
+    get:
+      tags:
+        - orders
+      summary: Gets every order
+      description: Update an existing order by Id
+      responses:
+        '200':
+          description: Successful operation
+          content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Order'
@@ -34,7 +56,6 @@ paths:
         - orders
       summary: Update an existing order
       description: Update an existing order by Id
-      operationId: updateOrder
       requestBody:
         description: Update an existing order
         content:
@@ -58,6 +79,7 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Order'
+    
             
 components:
   schemas:
