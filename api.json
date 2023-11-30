@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/OrderResponse'
   /{establishmentId}/orders/{orderId}:
     parameters:
       - name: establishmentId
@@ -42,15 +42,15 @@ paths:
     get:
       tags:
         - orders
-      summary: Gets every order
+      summary: Gets order by id
       description: Update an existing order by Id
       responses:
         '200':
           description: Successful operation
           content:
-            application/xml:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/OrderResponse'
     put:
       tags:
         - orders
@@ -61,13 +61,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Order'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Order'
+              $ref: '#/components/schemas/OrderResponse'
         required: true
       responses:
         '200':
@@ -75,14 +69,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/OrderResponse'          
     
             
 components:
   schemas:
+    OrderResponse:
+      type: object
+      required:
+      - "Order"
+      properties:
+        Order:
+          $ref: '#/components/schemas/Order'
     Order:
       type: object
       required:
