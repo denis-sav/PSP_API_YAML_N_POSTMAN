@@ -750,20 +750,15 @@ components:
         id:
           type: "string"
           example: "adae1b0a-d8b2-4273-b4b8-5b6f3bedff63"
+        customerId:
+          type: "string"
+          example: "b876eb6e-3222-4e79-8482-2872cdfeb52c"
         createdDateTime:
           type: "string"
           example: "2002-07-18T00:00:00"
         status:
           type: "string"
           example: "InProgress"
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderProduct'
-        services:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderService'
     OrderProduct:
       type: object
       properties:
