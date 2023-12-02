@@ -11,6 +11,7 @@ paths:
         in: path
         required: true
         description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
         schema:
           type: string
     get:
@@ -25,18 +26,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrdersResponse'
+    post:
+      tags:
+        - orders
+      summary: Creates a new Order
+      description: Creates a new Order
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersResponse'
+            
+      
   /{establishmentId}/orders/{orderId}:
     parameters:
       - name: establishmentId
         in: path
         required: true
         description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
         schema:
           type: string
       - name: orderId
         in: path
         required: true
         description: The ID of the order
+        example: "ff2470ef-2edb-4afc-ad40-9214e1777a58"
         schema:
           type: string
     get:
@@ -55,50 +72,229 @@ paths:
       tags:
         - orders
       summary: Update an existing order
-      description: Update an existing order by Id
+      description: Update state of an existing order by Id
       requestBody:
         description: Update an existing order
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderResponse'
-        required: true
+              $ref: '#/components/schemas/OrderPutRequest'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderResponse'          
+                $ref: '#/components/schemas/OrderResponse'
+    delete:
+      tags:
+        - orders
+      summary: Deletes an Order
+      description: Deletes an order
+      responses:
+        '204':
+          description: Successful operation
+
+                
+  /{establishmentId}/orders/{orderId}/products:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order
+        example: "ff2470ef-2edb-4afc-ad40-9214e1777a58"
+        schema:
+          type: string    
+    get:
+      tags:
+        - orders
+      summary: Gets all products of an order
+      description: Update an existing order by Id
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderProductsResponse'
+    post:
+      tags:
+        - orders
+      summary: Adds product to order
+      description: Creates a new product entry inside order
+      requestBody:
+        description: Specify id and quantity of a product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderProductPostRequest'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderProductResponse'
+                
+  /{establishmentId}/orders/{orderId}/products/{productId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order
+        example: "ff2470ef-2edb-4afc-ad40-9214e1777a58"
+        schema:
+          type: string   
+      - name: productId
+        in: path
+        required: true
+        example: "c5243a34-0e9e-40aa-b5e5-be426d9b92fd"
+        schema:
+          type: string
+    get:
+      tags:
+        - orders
+      summary: Gets a product of an order
+      description: Gets a product of an order by Id
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderProductResponse'
+    put:
+      tags:
+        - orders
+      summary: Updates a product of an order
+      description: Updates a product of an order by Id
+      requestBody:
+        description: Change templateId or/and quantity of a product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderProductPostRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderProductResponse'
+    delete:
+      tags:
+        - orders
+      summary: Deletes a product of an order
+      description: Deletes a product of an order
+      responses:
+        '204':
+          description: Successful operation
+                
+
+              
+  #------------------------------------------------------------------
     
             
 components:
   schemas:
+    OrderPutRequest:
+      type: object
+      properties:
+        order:
+          type: object
+          properties:
+            createdDateTime:
+              type: "string"
+              example: "2002-07-18T00:00:00"
+
     OrderResponse:
       type: object
-      required:
-      - "Order"
       properties:
-        Order:
+        order:
           $ref: '#/components/schemas/Order'
+          
+    OrderProductsResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    
+    OrderProductResponse:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+            
+    OrderProductPostRequest:
+      type: object
+      properties:
+        product:
+          type: object
+          properties:
+            templateId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+            quantity:
+              type: "integer"
+              example: 5
           
     OrdersResponse:
       type: object
       properties:
-        Orders:
+        orders:
           type: array
           items:
             $ref: '#/components/schemas/Order'
     Order:
       type: object
-      required:
-      - "time"
-      - "product"
-      - "quantity"
       properties:
-        time:
+        id:
           type: "string"
-        product:
+          example: "adae1b0a-d8b2-4273-b4b8-5b6f3bedff63"
+        createdDateTime:
           type: "string"
+          example: "2002-07-18T00:00:00"
+        status:
+          type: "string"
+          example: "InProgress"
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "fe7e1a60-98cb-49f8-9b5e-be0291de676c"
+        templateId:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        category:
+          type: "string"
+          example: "Electronics"
         quantity:
           type: "integer"
+          example: 5
