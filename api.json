@@ -142,10 +142,6 @@ paths:
       responses:
         '201':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderServiceResponse'
 
  #------------------------------------------------------------------
                 
@@ -169,7 +165,7 @@ paths:
       tags:
         - orders
       summary: Gets all products of an order
-      description: Update an existing order by Id
+      description: Gets all products of an order
       responses:
         '200':
           description: Successful operation
@@ -191,10 +187,6 @@ paths:
       responses:
         '201':
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderProductResponse'
                 
   /{establishmentId}/orders/{orderId}/products/{productId}:
     parameters:
@@ -236,7 +228,7 @@ paths:
       summary: Updates a product of an order
       description: Updates a product of an order by Id
       requestBody:
-        description: Change templateId or/and quantity of a product
+        description: Change quantity of a product
         content:
           application/json:
             schema:
@@ -296,7 +288,7 @@ paths:
       summary: Updates a service of an order
       description: Updates a service of an order by Id
       requestBody:
-        description: Change templateId or/and quantity of a service
+        description: Change quantity of a service
         content:
           application/json:
             schema:
@@ -414,7 +406,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponse'
-    put:
+    patch:
       tags:
         - products
       summary: Update a product
@@ -509,7 +501,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceResponse'
-    put:
+    patch:
       tags:
         - services
       summary: Update a service
@@ -548,7 +540,7 @@ components:
         service:
           type: object
           properties:
-            templateId:
+            serviceId:
               type: "string"
               example: "24f64272-ba94-4f08-a13f-209b33d26430"
             quantity:
@@ -576,9 +568,6 @@ components:
         id:
           type: "string"
           example: "fe7e1a60-98cb-49f8-9b5e-be0291de676c"
-        templateId:
-          type: "string"
-          example: "24f64272-ba94-4f08-a13f-209b33d26430"
         name:
           type: "string"
           example: "Gadget Pro"
@@ -746,7 +735,7 @@ components:
         product:
           type: object
           properties:
-            templateId:
+            serviceId:
               type: "string"
               example: "24f64272-ba94-4f08-a13f-209b33d26430"
             quantity:
@@ -781,9 +770,6 @@ components:
         id:
           type: "string"
           example: "fe7e1a60-98cb-49f8-9b5e-be0291de676c"
-        templateId:
-          type: "string"
-          example: "24f64272-ba94-4f08-a13f-209b33d26430"
         name:
           type: "string"
           example: "Gadget Pro"
