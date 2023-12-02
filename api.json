@@ -1229,6 +1229,13 @@ paths:
   #------------------------------------------------------------------
 
   /{establishmentId}/workers:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
     get:
       tags:
         - workers
@@ -1261,6 +1268,19 @@ paths:
                 $ref: '#/components/schemas/WorkerResponse'
 
   /{establishmentId}/workers/role/{roleId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        required: true
+        description: The unique identifier of a role
+        schema:
+          type: string
     get:
       tags:
         - workers
@@ -1275,6 +1295,19 @@ paths:
                 $ref: '#/components/schemas/WorkersResponse'
     
   /{establishmentId}/workers/{workerId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: workerId
+        in: path
+        required: true
+        description: The unique identifier of a worker
+        schema:
+          type: string
     get:
       tags:
         - workers
@@ -1315,6 +1348,19 @@ paths:
           description: Successful operation
 
   /{establishmentId}/workers/{workerId}/roles:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: workerId
+        in: path
+        required: true
+        description: The unique identifier of a worker
+        schema:
+          type: string
     get:
       tags:
         - workers
@@ -1343,6 +1389,25 @@ paths:
           description: "Role successfully added to the worker"
 
   /{establishmentId}/workers/{workerId}/roles/{roleId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: workerId
+        in: path
+        required: true
+        description: The unique identifier of a worker
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        required: true
+        description: The unique identifier of a role
+        schema:
+          type: string
     delete:
       tags:
         - workers
@@ -1351,11 +1416,629 @@ paths:
       responses:
         '204':
           description: Successful operation
+
+  #------------------------------------------------------------------
+
+  /{establishmentId}/roles:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - roles
+      summary: Gets all of the roles
+      description: Return a list of all of the roles
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolesResponse'
+    post:
+      tags:
+        - roles
+      summary: Creates a new role
+      description: Creates a new role
+      requestBody:
+        description: Role details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolePostRequest'
+      responses:
+        '201':
+          description: Role successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
     
+  /{establishmentId}/roles/{roleId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        required: true
+        description: The unique identifier of a role
+        schema:
+          type: string
+    get:
+      tags:
+        - roles
+      summary: Gets the role from the roleId
+      description: Return a single role from the roleId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+    put:
+      tags:
+        - roles
+      summary: Updates a role
+      description: Modify the details of a specific role
+      requestBody:
+        description: Updated role details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolePostRequest'
+      responses:
+        '200':
+          description: Role successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+    delete:
+      tags:
+        - roles
+      summary: Delete a role
+      description: Remove a role
+      responses:
+        '204':
+          description: Successful operation
   
+  /{establishmentId}/roles/{roleId}/permissions:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        required: true
+        description: The unique identifier of a role
+        schema:
+          type: string
+    get:
+      tags:
+        - roles
+      summary: Gets all of the permissions for the role
+      description: Return a list of all of the permissions for the role
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolePermissionsResponse'
+    post:
+      tags:
+        - roles
+      summary: Adds a permission to the role
+      description: Adds a permission to the role
+      requestBody:
+        description: Permission details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionPostRequest'
+      responses:
+        '201':
+          description: "Permission successfully added to the role"
+
+  /{establishmentId}/roles/{roleId}/permissions/{permissionId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: roleId
+        in: path
+        required: true
+        description: The unique identifier of a role
+        schema:
+          type: string
+      - name: permissionId
+        in: path
+        required: true
+        description: The unique identifier of a permission
+        schema:
+          type: string
+    delete:
+      tags:
+        - roles
+      summary: Deletes a permission from the role
+      description: Deletes a permission from the role
+      responses:
+        '204':
+          description: Successful operation
+  
+  #------------------------------------------------------------------
+
+  /admins:
+    get:
+      tags:
+        - admins
+      summary: Gets all of the admins
+      description: Return a list of all of the admins
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminsResponse'
+    post:
+      tags:
+        - admins
+      summary: Creates a new admin
+      description: Creates a new admin
+      requestBody:
+        description: Admin details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPostRequest'
+      responses:
+        '201':
+          description: Admin successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+        
+  /admins/{adminId}:     
+    parameters:
+      - name: adminId
+        in: path
+        required: true
+        description: The unique identifier of an admin
+        schema:
+          type: string
+    get:
+      tags:
+        - admins
+      summary: Gets the admin from the adminId
+      description: Return a single admin from the adminId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+    patch:
+      tags:
+        - admins
+      summary: Updates an admin
+      description: Modify the details of a specific admin
+      requestBody:
+        description: Updated admin details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPostRequest'
+      responses:
+        '200':
+          description: Admin successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+    delete:
+      tags:
+        - admins
+      summary: Delete an admin
+      description: Remove an admin
+      responses:
+        '204':
+          description: Successful operation
+
+  /establishments:
+    get:
+      tags:
+        - establishments
+      summary: Gets all of the establishments
+      description: Return a list of all of the establishments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstablishmentsResponse'
+    post:
+      tags:
+        - establishments
+      summary: Creates a new establishment
+      description: Creates a new establishment
+      requestBody:
+        description: Establishment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstablishmentPostRequest'
+      responses:
+        '201':
+          description: Establishment successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstablishmentResponse'
+
+  /establishments/{establishmentId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The unique identifier of an establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - establishments
+      summary: Gets the establishment from the establishmentId
+      description: Return a single establishment from the establishmentId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstablishmentResponse'
+    put:
+      tags:
+        - establishments
+      summary: Updates an establishment
+      description: Modify the details of a specific establishment
+      requestBody:
+        description: Updated establishment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstablishmentPostRequest'
+      responses:
+        '200':
+          description: Establishment successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstablishmentResponse'
+    delete:
+      tags:
+        - establishments
+      summary: Delete an establishment
+      description: Remove an establishment
+      responses:
+        '204':
+          description: Successful operation
+
+  /establishments/{establishmentId}/admins:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The unique identifier of an establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - establishments
+      summary: Gets all of the admins for the establishment
+      description: Return a list of all of the admins for the establishment
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstablishmentAdminsResponse'
+    post:
+      tags:
+        - establishments
+      summary: Adds an admin to the establishment
+      description: Adds an admin to the establishment
+      requestBody:
+        description: Admin details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstablishmentAdminPostRequest'
+      responses:
+        '201':
+          description: "Admin successfully added to the establishment"
+
+  /establishments/{establishmentId}/admins/{adminId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The unique identifier of an establishment
+        schema:
+          type: string
+      - name: adminId
+        in: path
+        required: true
+        description: The unique identifier of an admin
+        schema:
+          type: string
+    delete:
+      tags:
+        - establishments
+      summary: Deletes an admin from the establishment
+      description: Deletes an admin from the establishment
+      responses:
+        '204':
+          description: Successful operation
+
+  #------------------------------------------------------------------
+
+  /sessions:
+    post:
+      tags:
+        - sessions
+      summary: Creates a new session
+      description: Creates a new session
+      requestBody:
+        description: Session details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionPostRequest'
+      responses:
+        '201':
+          description: Session successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+
   #------------------------------------------------------------------
 components:
   schemas:
+
+    Session:
+      type: object
+      properties:
+        token:
+          type: "string"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        
+
+    SessionResponse:
+      type: object
+      properties:
+        session:
+          $ref: '#/components/schemas/Session'
+
+    SessionPostRequest:
+      type: object
+      properties:
+        session:
+          type: object
+          properties:
+            username:
+              type: "string"
+              example: "johndoe"
+            password:
+              type: "string"
+              example: "password"
+
+    EstablishmentAdmin:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "John Doe"
+        email:
+          type: "string"
+          example: "johndoe@mail.com"
+        phone:
+          type: "string"
+          example: "1234567890"
+
+    EstablishmentAdminsResponse:
+      type: object
+      properties:
+        admins:
+          type: array
+          items:
+            $ref: '#/components/schemas/EstablishmentAdmin'
+
+    EstablishmentAdminPostRequest:
+      type: object
+      properties:
+        admin:
+          type: object
+          properties:
+            adminId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+
+    EstablishmentResponse:
+      type: object
+      properties:
+        establishment:
+          $ref: '#/components/schemas/Establishment'
+
+    EstablishmentPostRequest:
+      type: object
+      properties:
+        establishment:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "McDonalds"
+
+    Establishment:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "McDonalds"
+
+    EstablishmentsResponse:
+      type: object
+      properties:
+        establishments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Establishment'
+
+    AdminResponse:
+      type: object
+      properties:
+        admin:
+          $ref: '#/components/schemas/Admin'
+
+    AdminPostRequest:
+      type: object
+      properties:
+        admin:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "John Doe"
+            email:
+              type: "string"
+              example: "johndoe@mail.com"
+            phone:
+              type: "string"
+              example: "1234567890"
+            password:
+              type: "string"
+              example: "password"
+            username:
+              type: "string"
+              example: "johndoe"
+
+    Admin:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "John Doe"
+        email:
+          type: "string"
+          example: "johndoe@mail.com"
+        phone:
+          type: "string"
+          example: "1234567890"
+        password:
+          type: "string"
+          example: "password"
+        username:
+          type: "string"
+          example: "johndoe"
+
+    AdminsResponse:
+      type: object
+      properties:
+        admins:
+          type: array
+          items:
+            $ref: '#/components/schemas/Admin'
+
+    PermissionPostRequest:
+      type: object
+      properties:
+        permission:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "Create Product"
+
+    Permission:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Create Product"
+
+    RolePermissionsResponse:
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+
+    RoleResponse:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+
+    RolePostRequest:
+      type: object
+      properties:
+        role:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "Manager"
+
+    RolesResponse:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+    
+    Role:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Manager"
 
     WorkerRolePostRequest:
       type: object
