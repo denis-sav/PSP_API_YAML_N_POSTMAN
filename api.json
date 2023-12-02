@@ -527,12 +527,1226 @@ paths:
       responses:
         '204':
           description: Successful operation
+      
   
   
   #------------------------------------------------------------------
+  
+  /{establishmentId}/generateBill/{orderId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The unique identifier of an order
+        example: "9f8e7d6c-5b4a-3d2e-1c0b-a9b8c7d6e5f4"
+        schema:
+          type: string
+    get:
+      tags:
+        - generateBill
+      summary: Generates a bill for an order
+      description: Generates a bill for a specific order by its ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bill'
             
+  #------------------------------------------------------------------
+  
+  /{establishmentId}/payments:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+    get:
+      tags:
+        - payments
+      summary: Gets all of the payments
+      description: Return a list of all of the payments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsResponse'
+    post:
+      tags:
+        - payments
+      summary: Creates a new payment
+      description: Creates a new payment
+      requestBody:
+        description: Payment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostRequest'
+      responses:
+        '201':
+          description: Payment successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+  /{establishmentId}/payments/customer/{customerId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+      - name: customerId
+        in: path
+        required: true
+        description: The unique identifier of a customer
+        example: "9f8e7d6c-5b4a-3d2e-1c0b-a9b8c7d6e5f4"
+        schema:
+          type: string
+    get:
+      tags:
+        - payments
+      summary: Gets all of the payments for the user
+      description: Return a list of all of the payments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsResponse'
+  /{establishmentId}/payments/order/{orderId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The unique identifier of an order
+        example: "9f8e7d6c-5b4a-3d2e-1c0b-a9b8c7d6e5f4"
+        schema:
+          type: string
+    get:
+      tags:
+        - payments
+      summary: Gets the payment for the order
+      description: Return a payment for the order if it exists
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+  /{establishmentId}/payments/{paymentId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+      - name: paymentId
+        in: path
+        required: true
+        description: The unique identifier of a payment
+        example: "9f8e7d6c-5b4a-3d2e-1c0b-a9b8c7d6e5f4"
+        schema:
+          type: string
+    get:
+      tags:
+        - payments
+      summary: Gets the payment from the paymentId
+      description: Return a single payment from the paymentId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+    patch:
+      tags:
+        - payments
+      summary: Updates a payment
+      description: Modify the details of a specific payment
+      requestBody:
+        description: Updated payment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostRequest'
+      responses:
+        '200':
+          description: Payment successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+    delete:
+      tags:
+        - payments
+      summary: Delete a payment
+      description: Remove a payment
+      responses:
+        '204':
+          description: Successful operation
+
+  /{establishmentId}/discounts:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - discounts
+      summary: Gets all of the discounts
+      description: Return a list of all of the discounts
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountsResponse'
+    post:
+      tags:
+        - discounts
+      summary: Creates a new discount
+      description: Creates a new discount
+      requestBody:
+        description: Discount details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountPostRequest'
+      responses:
+        '201':
+          description: Discount successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountResponse'
+
+
+  /{establishmentId}/discounts/{discountId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: discountId
+        in: path
+        required: true
+        description: The unique identifier of a discount
+        schema:
+          type: string
+    get:
+      tags:
+        - discounts
+      summary: Gets the discount from the discountId
+      description: Return a single discount from the discountId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountResponse'
+    patch:
+      tags:
+        - discounts
+      summary: Updates a discount
+      description: Modify the details of a specific discount
+      requestBody:
+        description: Updated discount details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountPostRequest'
+      responses:
+        '200':
+          description: Discount successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountResponse'
+    delete:
+      tags:
+        - discounts
+      summary: Delete a discount
+      description: Remove a discount
+      responses:
+        '204':
+          description: Successful operation
+
+  /{establishmentId}/discounts/{discountId}/products:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: discountId
+        in: path
+        required: true
+        description: The unique identifier of a discount
+        schema:
+          type: string
+    get:
+      tags:
+        - discounts
+      summary: Gets all of the products for the discount
+      description: Return a list of all of the products for the discount
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountProductsResponse'
+    post:
+      tags:
+        - discounts
+      summary: Adds a product to the discount
+      description: Adds a product to the discount
+      requestBody:
+        description: Product details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountProductPostRequest'
+      responses:
+        '201':
+          description: "Product successfully added to the discount"
+          
+  /{establishmentId}/discounts/{discountId}/products/{productId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: discountId
+        in: path
+        required: true
+        description: The unique identifier of a discount
+        schema:
+          type: string
+      - name: productId
+        in: path
+        required: true
+        description: The unique identifier of a product
+        schema:
+          type: string
+    delete:
+      tags:
+        - discounts
+      summary: Deletes a product from the discount
+      description: Deletes a product from the discount
+      responses:
+        '204':
+          description: Successful operation
+
+  /{establishmentId}/discounts/{discountId}/services:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: discountId
+        in: path
+        required: true
+        description: The unique identifier of a discount
+        schema:
+          type: string
+    get:
+      tags:
+        - discounts
+      summary: Gets all of the services for the discount
+      description: Return a list of all of the services for the discount
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountServicesResponse'
+    post:
+      tags:
+        - discounts
+      summary: Adds a service to the discount
+      description: Adds a service to the discount
+      requestBody:
+        description: Service details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountServicePostRequest'
+      responses:
+        '201':
+          description: "Service successfully added to the discount"
+
+  /{establishmentId}/discounts/{discountId}/services/{serviceId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: discountId
+        in: path
+        required: true
+        description: The unique identifier of a discount
+        schema:
+          type: string
+      - name: serviceId
+        in: path
+        required: true
+        description: The unique identifier of a service
+        schema:
+          type: string
+    delete:
+      tags:
+        - discounts
+      summary: Deletes a service from the discount
+      description: Deletes a service from the discount
+      responses:
+        '204':
+          description: "Successful operation"
+
+  #------------------------------------------------------------------
+
+  /{establishmentId}/reservations:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - reservations
+      summary: Gets all of the reservations
+      description: Return a list of all of the reservations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationsResponse'
+    post:
+      tags:
+        - reservations
+      summary: Creates a new reservation
+      description: Creates a new reservation
+      requestBody:
+        description: Reservation details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationPostRequest'
+      responses:
+        '201':
+          description: Reservation successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+
+  /{establishmentId}/reservations/{reservationId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: reservationId
+        in: path
+        required: true
+        description: The unique identifier of a reservation
+        schema:
+          type: string
+    get:
+      tags:
+        - reservations
+      summary: Gets the reservation from the reservationId
+      description: Return a single reservation from the reservationId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+    patch:
+      tags:
+        - reservations
+      summary: Updates a reservation
+      description: Modify the details of a specific reservation
+      requestBody:
+        description: Updated reservation details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationPostRequest'
+      responses:
+        '200':
+          description: Reservation successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+    delete:
+      tags:
+        - reservations
+      summary: Delete a reservation
+      description: Remove a reservation
+      responses:
+        '204':
+          description: Successful operation
+
+  /{establishmentId}/customers:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - customers
+      summary: Gets all of the customers
+      description: Return a list of all of the customers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomersResponse'
+    post:
+      tags:
+        - customers
+      summary: Creates a new customer
+      description: Creates a new customer
+      requestBody:
+        description: Customer details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerPostRequest'
+      responses:
+        '201':
+          description: Customer successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+
+  /{establishmentId}/customers/{customerId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: customerId
+        in: path
+        required: true
+        description: The unique identifier of a customer
+        schema:
+          type: string
+    get:
+      tags:
+        - customers
+      summary: Gets the customer from the customerId
+      description: Return a single customer from the customerId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+    patch:
+      tags:
+        - customers
+      summary: Updates a customer
+      description: Modify the details of a specific customer
+      requestBody:
+        description: Updated customer details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerPostRequest'
+      responses:
+        '200':
+          description: Customer successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+    delete:
+      tags:
+        - customers
+      summary: Delete a customer
+      description: Remove a customer
+      responses:
+        '204':
+          description: Successful operation
+
+  #------------------------------------------------------------------
+
+  /{establishmentId}/giftCoupons:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+    get:
+      tags:
+        - giftCoupons
+      summary: Gets all of the giftCoupons
+      description: Return a list of all of the giftCoupons
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCouponsResponse'
+    post:
+      tags:
+        - giftCoupons
+      summary: Creates a new giftCoupon
+      description: Creates a new giftCoupon
+      requestBody:
+        description: GiftCoupon details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GiftCouponPostRequest'
+      responses:
+        '201':
+          description: GiftCoupon successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCouponResponse'
+
+  /{establishmentId}/giftCoupons/{giftCouponId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        schema:
+          type: string
+      - name: giftCouponId
+        in: path
+        required: true
+        description: The unique identifier of a giftCoupon
+        schema:
+          type: string
+    get:
+      tags:
+        - giftCoupons
+      summary: Gets the giftCoupon from the giftCouponId
+      description: Return a single giftCoupon from the giftCouponId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCouponResponse'
+    patch:
+      tags:
+        - giftCoupons
+      summary: Updates a giftCoupon
+      description: Modify the details of a specific giftCoupon
+      requestBody:
+        description: Updated giftCoupon details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GiftCouponPostRequest'
+      responses:
+        '200':
+          description: GiftCoupon successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCouponResponse'
+    delete:
+      tags:
+        - giftCoupons
+      summary: Delete a giftCoupon
+      description: Remove a giftCoupon
+      responses:
+        '204':
+          description: Successful operation
+
+  #------------------------------------------------------------------
+
+  /{establishmentId}/workers:
+    get:
+      tags:
+        - workers
+      summary: Gets all of the workers
+      description: Return a list of all of the workers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkersResponse'
+    post:
+      tags:
+        - workers
+      summary: Creates a new worker
+      description: Creates a new worker
+      requestBody:
+        description: Worker details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerPostRequest'
+      responses:
+        '201':
+          description: Worker successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerResponse'
+
+  /{establishmentId}/workers/role/{roleId}:
+    get:
+      tags:
+        - workers
+      summary: Gets all of the workers with the role
+      description: Return a list of all of the workers with the role
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkersResponse'
+    
+  /{establishmentId}/workers/{workerId}:
+    get:
+      tags:
+        - workers
+      summary: Gets the worker from the workerId
+      description: Return a single worker from the workerId
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerResponse'
+    patch:
+      tags:
+        - workers
+      summary: Updates a worker
+      description: Modify the details of a specific worker
+      requestBody:
+        description: Updated worker details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerPostRequest'
+      responses:
+        '200':
+          description: Worker successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerResponse'
+    delete:
+      tags:
+        - workers
+      summary: Delete a worker
+      description: Remove a worker
+      responses:
+        '204':
+          description: Successful operation
+
+  /{establishmentId}/workers/{workerId}/roles:
+    get:
+      tags:
+        - workers
+      summary: Gets all of the roles for the worker
+      description: Return a list of all of the roles for the worker
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkerRolesResponse'
+  
+  #------------------------------------------------------------------
 components:
   schemas:
+
+    WorkerRolesResponse:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkerRole'
+
+    WorkerRole:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Manager"
+
+    WorkerPostRequest:
+      type: object
+      properties:
+        worker:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "John Doe"
+            email:
+              type: "string"
+              example: "johndoe@mail.com"
+            phone:
+              type: "string"
+              example: "1234567890"
+            password:
+              type: "string"
+              example: "password"
+            username:
+              type: "string"
+              example: "johndoe"
+    
+    WorkerResponse:
+      type: object
+      properties:
+        worker:
+          $ref: '#/components/schemas/Worker'
+
+    WorkersResponse:
+      type: object
+      properties:
+        workers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Worker'
+
+    Worker:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "John Doe"
+        email:
+          type: "string"
+          example: "johndoe@mail.com"
+        phone:
+          type: "string"
+          example: "1234567890"
+        password:
+          type: "string"
+          example: "password"
+        username:
+          type: "string"
+          example: "johndoe"
+
+    GiftCouponResponse:
+      type: object
+      properties:
+        giftCoupon:
+          $ref: '#/components/schemas/GiftCoupon'
+
+    GiftCouponPostRequest:
+      type: object
+      properties:
+        giftCoupon:
+          type: object
+          properties:
+            validUntilDateTime:
+              type: "string"
+              example: "2002-07-18T00:00:00"
+            discount:
+              type: "integer"
+              example: 200
+            status:
+              type: "string"
+              example: "active"
+
+    GiftCouponsResponse:
+      type: object
+      properties:
+        giftCoupons:
+          type: array
+          items:
+            $ref: '#/components/schemas/GiftCoupon'
+    
+    GiftCoupon:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        validUntilDateTime:
+          type: "string"
+          example: "2002-07-18T00:00:00"
+        discount:
+          type: "integer"
+          example: 200
+        status:
+          type: "string"
+          example: "active"
+
+    CustomerResponse:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/Customer'
+
+    CustomerPostRequest:
+      type: object
+      properties:
+        customer:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "John Doe"
+            email:
+              type: "string"
+              example: "johndoes@mail.com"
+            phone:
+              type: "string"
+              example: "1234567890"
+
+    CustomersResponse:
+      type: object
+      properties:
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+    
+    Customer:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "John Doe"
+        email:
+          type: "string"
+          example: "johndoes@mail.com"
+        phone:
+          type: "string"
+          example: "1234567890"
+
+    ReservationPostRequest:
+      type: object
+      properties:
+        reservation:
+          type: object
+          properties:
+            orderId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+            serviceId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+            startDateTime:
+              type: "string"
+              example: "2002-07-18T00:00:00"
+    
+    ReservationResponse:
+      type: object
+      properties:
+        reservation:
+          $ref: '#/components/schemas/Reservation'
+
+    ReservationsResponse:
+      type: object
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reservation'
+
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        orderId:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        serviceId:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        startDateTime:
+          type: "string"
+          example: "2002-07-18T00:00:00"
+
+
+    DiscountServicePostRequest:
+      type: object
+      properties:
+        service:
+          type: object
+          properties:
+            serviceId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+    
+    DiscountServicesResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscountService'
+
+    DiscountService:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+
+    DiscountProductPostRequest:
+      type: object
+      properties:
+        product:
+          type: object
+          properties:
+            productId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+
+    DiscountProductsResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscountProduct'
+
+    DiscountProduct:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+
+    DiscountPostRequest:
+      type: object
+      properties:
+        discount:
+          type: object
+          properties:
+            validUntilDateTime:
+              type: "string"
+              example: "2002-07-18T00:00:00"
+            percentage:
+              type: "integer"
+              example: 10
+
+    DiscountResponse:
+      type: object
+      properties:
+        discount:
+          $ref: '#/components/schemas/Discount'
+
+    DiscountsResponse:
+      type: object
+      properties:
+        discounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Discount'
+    
+    Discount:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        validUntilDateTime:
+          type: "string"
+          example: "2002-07-18T00:00:00"
+        percentage:
+          type: "integer"
+          example: 10
+
+    PaymentPostRequest:
+      type: object
+      properties:
+        payment:
+          type: object
+          properties:
+            orderId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+            status:
+              type: "string"
+              example: "Completed"
+            type:
+              type: "string"
+              example: "Cash"
+      
+    PaymentResponse:
+      type: object
+      properties:
+        payment:
+          $ref: '#/components/schemas/Payment'
+
+    PaymentsResponse:
+      type: object
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        orderId:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        status:
+          type: "string"
+          example: "Completed"
+        type:
+          type: "string"
+          example: "Cash"
+
+    Bill:
+      type: object
+      properties:
+        bill: 
+          type: object
+          properties:
+            customerId:
+              type: "string"
+              example: "38198298-9ff6-4755-a5e6-c9fa81ff45e3"
+            customer:
+              type: "string"
+              example: "John Smith"
+            generatedDateTime:
+              type: "string"
+              example: "2002-07-18T00:00:00"
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/BillProduct'
+            services:
+              type: array
+              items:
+                $ref: '#/components/schemas/BillService'
+            total:
+              type: "string"
+              example: "199.99"
+
+    BillProduct:
+      type: object
+      properties:
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        vat:
+          type: "string"
+          example: "20.00"
+        quantity:
+          type: "integer"
+          example: 5
+
+    BillService:
+      type: object
+      properties:
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        vat:
+          type: "string"
+          example: "20.00"
+        quantity:
+          type: "integer"
+          example: 5
   
     OrderServicePostRequest:
       type: object
