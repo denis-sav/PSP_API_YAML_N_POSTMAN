@@ -700,9 +700,9 @@ components:
         order:
           type: object
           properties:
-            createdDateTime:
+            status:
               type: "string"
-              example: "2002-07-18T00:00:00"
+              example: "Completed"
 
     OrderResponse:
       type: object
