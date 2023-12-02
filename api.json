@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrdersResponse'
+                $ref: '#/components/schemas/OrderResponse'
             
       
   /{establishmentId}/orders/{orderId}:
