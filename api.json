@@ -1327,10 +1327,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkerRolesResponse'
+    post:
+      tags:
+        - workers
+      summary: Adds a role to the worker
+      description: Adds a role to the worker
+      requestBody:
+        description: Role details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkerRolePostRequest'
+      responses:
+        '201':
+          description: "Role successfully added to the worker"
+
+  /{establishmentId}/workers/{workerId}/roles/{roleId}:
+    delete:
+      tags:
+        - workers
+      summary: Deletes a role from the worker
+      description: Deletes a role from the worker
+      responses:
+        '204':
+          description: Successful operation
+    
   
   #------------------------------------------------------------------
 components:
   schemas:
+
+    WorkerRolePostRequest:
+      type: object
+      properties:
+        workerRole:
+          type: object
+          properties:
+            roleId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
 
     WorkerRolesResponse:
       type: object
