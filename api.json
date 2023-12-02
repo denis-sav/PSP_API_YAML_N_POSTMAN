@@ -31,6 +31,12 @@ paths:
         - orders
       summary: Creates a new Order
       description: Creates a new Order
+      requestBody:
+        description: Customer for whom order created id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPostRequest'
       responses:
         '201':
           description: Successful operation
@@ -693,6 +699,16 @@ components:
         category:
           type: "string"
           example: "Electronics"
+          
+    OrderPostRequest:
+      type: object
+      properties:
+        order:
+          type: object
+          properties:
+            customerId:
+              type: "string"
+              example: "38198298-9ff6-4755-a5e6-c9fa81ff45e3"
   
     OrderPutRequest:
       type: object
