@@ -94,7 +94,54 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /{establishmentId}/orders/{orderId}/services:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order
+        example: "ff2470ef-2edb-4afc-ad40-9214e1777a58"
+        schema:
+          type: string    
+    get:
+      tags:
+        - orders
+      summary: Gets all services of an order
+      description: Retrieve all services included in an order
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderServicesResponse'
+    post:
+      tags:
+        - orders
+      summary: Adds service to order
+      description: Adds a new service entry to an order
+      requestBody:
+        description: Specify id and quantity of a service
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderServicePostRequest'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderServiceResponse'
 
+ #------------------------------------------------------------------
                 
   /{establishmentId}/orders/{orderId}/products:
     parameters:
@@ -203,6 +250,68 @@ paths:
       responses:
         '204':
           description: Successful operation
+  /{establishmentId}/orders/{orderId}/services/{serviceId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "ae68a372-285c-403b-9d0c-60db92bbc671"
+        schema:
+          type: string
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order
+        example: "ff2470ef-2edb-4afc-ad40-9214e1777a58"
+        schema:
+          type: string   
+      - name: serviceId
+        in: path
+        required: true
+        example: "c5243a34-0e9e-40aa-b5e5-be426d9b92fd"
+        schema:
+          type: string
+    get:
+      tags:
+        - orders
+      summary: Gets a service of an order
+      description: Gets a service of an order by Id
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderServiceResponse'
+    put:
+      tags:
+        - orders
+      summary: Updates a service of an order
+      description: Updates a service of an order by Id
+      requestBody:
+        description: Change templateId or/and quantity of a service
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderServicePostRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderServiceResponse'
+    delete:
+      tags:
+        - orders
+      summary: Deletes a service of an order
+      description: Deletes a service of an order
+      responses:
+        '204':
+          description: Successful operation
+
+#------------------------------------------------------------------
                 
   /{establishmentId}/products:
     parameters:
@@ -327,12 +436,217 @@ paths:
           description: Successful operation
               
   #------------------------------------------------------------------
+  /{establishmentId}/services:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+    get:
+      tags:
+        - services
+      summary: Gets every service
+      description: Retrieve a list of all services
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicesResponse'
+    post:
+      tags:
+        - services
+      summary: Creates a new service
+      description: Add a new service to the establishment's offerings
+      requestBody:
+        description: Service details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicePostRequest'
+      responses:
+        '201':
+          description: Service successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+  /{establishmentId}/services/{serviceId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "d7f4a6e3-5e3f-4f57-8e2e-12345abcdef"
+        schema:
+          type: string
+      - name: serviceId
+        in: path
+        required: true
+        description: The unique identifier of a service
+        example: "9f8e7d6c-5b4a-3d2e-1c0b-a9b8c7d6e5f4"
+        schema:
+          type: string
+    get:
+      tags:
+        - services
+      summary: Get specific service
+      description: Retrieve details of a specific service by its ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+    put:
+      tags:
+        - services
+      summary: Update a service
+      description: Modify the details of a specific service
+      requestBody:
+        description: Updated service details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicePutRequest'
+      responses:
+        '200':
+          description: Service successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+    delete:
+      tags:
+        - services
+      summary: Delete a service
+      description: Remove a service from the establishment's offerings
+      responses:
+        '204':
+          description: Successful operation
   
   
-    
+  #------------------------------------------------------------------
             
 components:
   schemas:
+  
+    OrderServicePostRequest:
+      type: object
+      properties:
+        service:
+          type: object
+          properties:
+            templateId:
+              type: "string"
+              example: "24f64272-ba94-4f08-a13f-209b33d26430"
+            quantity:
+              type: integer
+              example: 2
+        # Add other necessary properties as required
+
+    OrderServiceResponse:
+      type: object
+      properties:
+        service:
+          $ref: '#/components/schemas/OrderService'
+    
+    OrderServicesResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderService'
+            
+    OrderService:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "fe7e1a60-98cb-49f8-9b5e-be0291de676c"
+        templateId:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        duration:
+          type: "integer"
+          example: 60
+        quantity:
+          type: integer
+          example: 2
+
+    ServicePutRequest:
+      type: object
+      properties:
+        service:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "Gadget Pro"
+            price:
+              type: "string"
+              example: "199.99"
+            duration:
+              type: "integer"
+              example: 60
+
+    ServicePostRequest:
+      type: object
+      properties:
+        service:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "Gadget Pro"
+            price:
+              type: "string"
+              example: "199.99"
+            duration:
+              type: "integer"
+              example: 60
+    
+    ServiceResponse:
+      type: object
+      properties:
+        service:
+          $ref: '#/components/schemas/Service'
+  
+    ServicesResponse:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
+
+    Service:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        duration:
+          type: "integer"
+          example: 60
     
     ProductPostRequest:
       type: object
@@ -446,6 +760,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderProduct'
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderService'
     OrderProduct:
       type: object
       properties:
