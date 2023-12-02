@@ -204,13 +204,182 @@ paths:
         '204':
           description: Successful operation
                 
-
+  /{establishmentId}/products:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "b3a123b4-6fde-4db0-9b6a-8b77a5d5a4c5"
+        schema:
+          type: string
+    get:
+      tags:
+        - products
+      summary: Gets every product
+      description: Retrieve a list of all products
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductsResponse'
+    post:
+      tags:
+        - products
+      summary: Creates a new product
+      description: Add a new product to the establishment's inventory
+      requestBody:
+        description: Product details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPostRequest'
+      responses:
+        '201':
+          description: Product successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+  /{establishmentId}/products/{category}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "b3a123b4-6fde-4db0-9b6a-8b77a5d5a4c5"
+        schema:
+          type: string
+      - name: category
+        in: path
+        required: true
+        description: The category of the produc
+        example: "Electronics"
+        schema:
+          type: string
+    get:
+      tags:
+        - products
+      summary: Get products by category
+      description: Get products by category
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductsResponse'
+  /{establishmentId}/products/{productId}:
+    parameters:
+      - name: establishmentId
+        in: path
+        required: true
+        description: The ID of the establishment
+        example: "b3a123b4-6fde-4db0-9b6a-8b77a5d5a4c5"
+        schema:
+          type: string
+      - name: productId
+        in: path
+        required: true
+        description: The unique identifier of a product
+        example: "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+        schema:
+          type: string
+    get:
+      tags:
+        - products
+      summary: Get specific product
+      description: Retrieve details of a specific product by its ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    put:
+      tags:
+        - products
+      summary: Update a product
+      description: Modify the details of a specific product
+      requestBody:
+        description: Updated product details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPostRequest'
+      responses:
+        '200':
+          description: Product successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    delete:
+      tags:
+        - products
+      summary: Delete a product
+      description: Remove a product from the establishment's inventory
+      responses:
+        '204':
+          description: Successful operation
               
   #------------------------------------------------------------------
+  
+  
     
             
 components:
   schemas:
+    
+    ProductPostRequest:
+      type: object
+      properties:
+        product:
+          type: object
+          properties:
+            name:
+              type: "string"
+              example: "Gadget Pro"
+            price:
+              type: "string"
+              example: "199.99"
+            category:
+              type: "string"
+              example: "Electronics"
+              
+    ProductResponse:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+    
+    ProductsResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        
+    Product:
+      type: object
+      properties:
+        id:
+          type: "string"
+          example: "24f64272-ba94-4f08-a13f-209b33d26430"
+        name:
+          type: "string"
+          example: "Gadget Pro"
+        price:
+          type: "string"
+          example: "199.99"
+        category:
+          type: "string"
+          example: "Electronics"
+  
     OrderPutRequest:
       type: object
       properties:
@@ -233,13 +402,13 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/OrderProduct'
     
     OrderProductResponse:
       type: object
       properties:
         product:
-          $ref: '#/components/schemas/Product'
+          $ref: '#/components/schemas/OrderProduct'
             
     OrderProductPostRequest:
       type: object
@@ -276,8 +445,8 @@ components:
         products:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
-    Product:
+            $ref: '#/components/schemas/OrderProduct'
+    OrderProduct:
       type: object
       properties:
         id:
